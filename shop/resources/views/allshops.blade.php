@@ -54,7 +54,7 @@
                             </li>
                         @endforeach
                     @elseif($id!=0)
-                        <li cate_id=0>
+                        <li cate_id=0 >
                             <span class='items'>全部商品</span>
                         </li>
                         @foreach($rea as $v)
@@ -91,7 +91,7 @@
                     </div>
                     {{--商品--}}
                     <div class="good-list-inner">
-                        <div id="pullrefresh" class="good-list-box  mui-content mui-scroll-wrapper">
+                        <div  class="good-list-box  mui-content mui-scroll-wrapper">
                             <div class="goodList mui-scroll">
                                 <ul id="ulGoodsList" class="mui-table-view mui-table-view-chevron">
                                     @foreach($res as $v)
@@ -117,7 +117,8 @@
                                                         <li class="P-bar03"><em>646</em>剩余</li>
                                                     </ul>
                                                 </div>
-                                                <a codeid="12785750" class="" canbuy="646"><s></s></a>
+                                                @csrf
+                                                <a codeid="12785750" class="gouwu" canbuy="646" goods_id="{{$v->goods_id}}"><s></s></a>
                                             </div>
                                         </div>
                                     </li>
@@ -361,6 +362,29 @@ function pullupRefresh() {
                     });
                 }
             );
+        });
+        //加入购物车
+        $(document).on('click','.gouwu',function () {
+            var login="{{session('userInfo')}}";
+            if(login!=''){
+                var goods_id=$(this).attr('goods_id');
+                var _token=$(this).prev().val();
+                $.post(
+                    "{{url('index/addcart')}}",
+                    {goods_id:goods_id,_token:_token},
+                    function (res) {
+                        if(res==1){
+                            layer.msg('添加成功',{icon: 1});
+                        }else{
+                            layer.msg('添加失败',{icon: 2});
+                        }
+                    }
+                );
+            }else{
+                layer.msg('请先登录',{icon:2,time:2000},function(){
+                    location.href="{{url('login/login')}}";
+                });
+            }
         });
     })
 </script>

@@ -10,7 +10,7 @@ class User extends Model
      *与模型关联的数据表
      * @var string
      */
-    protected $table='User';
+    protected $table='user';
     /**
      * 定义表的主键
      * @var string

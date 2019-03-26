@@ -25,7 +25,8 @@
                                         <li class="P-bar03"><em>646</em>剩余</li>
                                     </ul>
                                 </div>
-                                <a codeid="12785750" class="" canbuy="646"><s></s></a>
+                                @csrf
+                                <a codeid="12785750" class="gouwu" canbuy="646" goods_id="{{$v->goods_id}}"><s></s></a>
                             </div>
                         </div>
                     </li>

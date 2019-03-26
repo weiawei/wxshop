@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f127b095-59a6-4653-9534-feaaedaa0214" name="aliyun" url="http://39.96.199.226">
+        <fileTransfer host="39.96.199.226" port="22" rootFolder="/data/wwwroot/default/wxshop/" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -106,10 +106,11 @@
 
                     </div>
                         <div class="btn-wrap" name="buyBox" limitbuy="0" surplus="58" totalnum="1625" alreadybuy="1567">
-                            <a href="javascript:;" class="buy-btn" codeid="12751965">立即潮购</a>
-                            <div class="gRate" codeid="12751965" canbuy="58">
+                            <a href="javascript:;" class="buy-btn" codeid="12751965" >立即潮购</a>
+                            <div class="gRate" codeid="12751965" goods_id="{{$v->goods_id}}" canbuy="58">
                                 <a href="javascript:;"></a>
                             </div>
+                            @csrf
                         </div>
                     </li>
                 @endforeach
@@ -143,9 +144,10 @@
                         </div>
                         <div class="btn-wrap" name="buyBox" limitbuy="0" surplus="58" totalnum="1625" alreadybuy="1567">
                             <a href="javascript:;" class="buy-btn" codeid="12751965">立即潮购</a>
-                            <div class="gRate" codeid="12751965" canbuy="58">
+                            <div class="gRate" codeid="12751965"  goods_id="{{$v->goods_id}}" canbuy="58" >
                                 <a href="javascript:;"></a>
                             </div>
+                            @csrf
                         </div>
                     </li>
                 @endforeach
@@ -202,6 +204,29 @@
             })
 
 
+        });
+        //加入购物车
+        $('.gRate').click(function () {
+            var login="{{session('userInfo')}}";
+            if(login!=''){
+                var goods_id=$(this).attr('goods_id');
+                var _token=$(this).next().val();
+                $.post(
+                    "{{url('index/addcart')}}",
+                    {goods_id:goods_id,_token:_token},
+                    function (res) {
+                        if(res==1){
+                            layer.msg('添加成功',{icon: 1});
+                        }else{
+                            layer.msg('添加失败',{icon: 2});
+                        }
+                    }
+                );
+            }else{
+                layer.msg('请先登录',{icon:2,time:2000},function(){
+                    location.href="{{url('login/login')}}";
+                });
+            }
         });
     </script>
     <script type="text/javascript">

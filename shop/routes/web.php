@@ -12,17 +12,29 @@
 */
 //展示页面
 Route::any('/',"Shop\IndexController@index");
-
+Route::any('info/info',function (){
+    echo phpinfo();
+});//PHPinfo
 /**微商城*/
 //需要走中间件的 购物车页面
 Route::group(['middleware'=>'logs','prefix'=>'cart'],function () {
     Route::any('shopcart',"Shop\IndexController@shopcart");//购物车页面
     Route::any('changenum',"Shop\CartController@changenum");//改变购买数量
     Route::any('cartDel',"Shop\CartController@cartDel");//单商品删除
+    Route::any('payment',"Shop\CartController@payment");//提交订单
+    Route::any('paymentdo',"Shop\CartController@paymentdo");//提交订单
+    Route::any('paysuccess',"Shop\CartController@paysuccess");//提交订单
 });
 // 需要走中间件的 我的页面
 Route::group(['middleware'=>'logs','prefix'=>'user'],function () {
     Route::any('userpage',"Shop\IndexController@userpage");//我的 页面
+    Route::any('buyrecord',"Shop\userController@buyrecord");//潮购记录
+    Route::any('willshare',"Shop\userController@willshare");//我的晒单
+    Route::any('mywallet',"Shop\userController@mywallet");//我的钱包
+    Route::any('address',"Shop\userController@address");//收货地址
+    Route::any('writeaddr',"Shop\userController@writeaddr");//收货地址添加
+    Route::any('invite',"Shop\userController@invite");//二维码分享
+    Route::any('safeset',"Shop\userController@safeset");//安全设置
 });
 //不走中间件的
 Route::prefix('index')->group(function () {
@@ -35,6 +47,7 @@ Route::prefix('index')->group(function () {
     Route::any('asc',"Shop\IndexController@asca");//价格升
     Route::any('desc',"Shop\IndexController@desca");//价格降
     Route::any('search',"Shop\IndexController@search");//搜索
+    Route::any('addcart',"Shop\IndexController@addcart");//加入购物车
 });
 //登录 注册
 Route::prefix('login')->group(function () {

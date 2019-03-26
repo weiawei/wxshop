@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Model\Goods;
 use App\Http\Model\Categories;
 use App\Http\Model\Cart;
+use App\Http\Model\User;
 class IndexController extends Controller
 {
     /**网站首页*/
@@ -62,11 +63,18 @@ class IndexController extends Controller
     }
     /**购物车*/
     public function  shopcart(){
+        $user_tel=session('userInfo');
+        $user=new User;
+        $res=$user->where(['user_tel'=>$user_tel])->first();
+        $user_id=$res['user_id'];
         $cart=new Cart;
+        //商品
         $res=$cart
             ->join('goods', 'goods.goods_id', '=', 'cart.goods_id')
             ->where('cart_status',1)
+            ->where(['user_id'=>$user_id])
             ->get();
+        //人气
         $rea=$cart
             ->join('goods', 'goods.goods_id', '=', 'cart.goods_id')
             ->orderby('buy_number','desc')
@@ -137,5 +145,38 @@ class IndexController extends Controller
             }
         }
         return $cate_id;
+    }
+    /**加入购物车*/
+    public function addcart(Request $request){
+        $user_name=session('userInfo');
+        $user=new User;
+        $res=$user->where(['user_tel'=>$user_name])->first();
+        $user_id=$res['user_id'];
+        if($user_name!=''){
+            $user=new User;
+            $res=$user->where(['user_tel'=>$user_name])->first();//获取到用户id
+            $cart=new Cart;
+            $goods_id=$request->goods_id;
+            $reb=$cart
+                ->where(['goods_id'=>$goods_id])
+                ->where(['user_id'=>$user_id])
+                ->first();
+            if($reb!=''){
+                $buy_number=$reb['buy_number']+1;
+                $rea=$cart->where(['goods_id'=>$goods_id])->update(['buy_number'=>$buy_number]);
+            }else{
+                $cart->goods_id=$request->goods_id;
+                $cart->user_id=$res['user_id'];
+                $cart->buy_number=1;
+                $rea=$cart->save();
+            }
+            if($rea){
+                echo 1;
+            }else{
+                echo 2;
+            }
+        }else{
+            return redirect('login/login');
+        }
     }
 }

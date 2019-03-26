@@ -36,7 +36,7 @@
     <a href="javascript:history.back();" class="m-back-arrow"><i class="m-public-icon"></i></a>
     <a href="/" class="m-index-icon"><i class="m-public-icon"></i></a>
 </div>
-    @yield('content')
+@yield('content')
 {{--底部--}}
 <div class="footer clearfix">
     <ul>
@@ -48,9 +48,9 @@
     </ul>
 </div>
 </body>
-<script src="{{url('js/jquery-3.2.1.min.js')}}"></script> 
+<script src="{{url('js/jquery-3.2.1.min.js')}}"></script>
 <script src="http://cdn.bootcss.com/flexslider/2.6.2/jquery.flexslider.min.js"></script>
-<script src="{{url('layui/layui.js')}}"></script> 
+<script src="{{url('layui/layui.js')}}"></script>
 <script src="{{url('js/all.js')}}"></script>
 <script src="{{url('js/index.js')}}"></script>
 <script src="{{url('js/lazyload.min.js')}}"></script>
@@ -63,9 +63,9 @@
 
 <script>
     $('.footer').find('a').click(function () {
-       var _this=$(this);
-       $('.footer').find('a').attr('class','');
-       _this.attr('class','hover');
+        var _this=$(this);
+        $('.footer').find('a').attr('class','');
+        _this.attr('class','hover');
     });
 </script>
 @yield('my-js')

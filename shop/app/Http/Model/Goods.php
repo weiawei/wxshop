@@ -10,7 +10,7 @@ class Goods extends Model
      *与模型关联的数据表
      * @var string
      */
-    protected $table='Goods';
+    protected $table='goods';
     /**
      * 定义表的主键
      * @var string
