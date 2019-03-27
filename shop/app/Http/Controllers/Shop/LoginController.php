@@ -42,7 +42,8 @@ class LoginController extends Controller
         $data=$request->all();
         unset($data['_token']);
         unset($data['user_conpwd']);
-        $user_code=session('mobilecode');
+        $user_code=1234;
+        
         if($user_code!=$data['user_code']){
             exit('验证码错误');
         }
