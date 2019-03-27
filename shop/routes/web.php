@@ -33,6 +33,11 @@ Route::group(['middleware'=>'logs','prefix'=>'user'],function () {
     Route::any('mywallet',"Shop\userController@mywallet");//我的钱包
     Route::any('address',"Shop\userController@address");//收货地址
     Route::any('writeaddr',"Shop\userController@writeaddr");//收货地址添加
+    Route::any('addressDo',"Shop\userController@addressDo");//收货地址添加执行
+    Route::any('addressdel',"Shop\userController@addressdel");//收货地址添加执行
+    Route::any('addressmoren',"Shop\userController@addressmoren");//收货地址设置默认
+    Route::any('addressEdit',"Shop\userController@addressEdit");//收货地址修改
+    Route::any('getArea',"Shop\userController@getArea");//三级联动
     Route::any('invite',"Shop\userController@invite");//二维码分享
     Route::any('safeset',"Shop\userController@safeset");//安全设置
 });
@@ -60,4 +65,10 @@ Route::prefix('login')->group(function () {
 });
 //访问验证码的方法
 route::any('verify/create','CaptchaController@create');
+//支付
+Route::prefix('alipay')->group(function () {
+    Route::any('mobilepay',"AlipayController@mobilepay");//支付宝
+    Route::any('return',"AlipayController@re");//同步
+    Route::any('notify',"AlipayController@notify");//异步
+});
 

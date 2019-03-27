@@ -83,7 +83,10 @@ class IndexController extends Controller
     }
     /**我的*/
     public function  userpage(){
-        return view('userpage');
+        $user_name=session('userInfo');
+        $user=new User;
+        $res=$user->where(['user_tel'=>$user_name])->first();
+        return view('userpage',$res);
     }
     /**商品分类*/
     public function cateshop(Request $request){

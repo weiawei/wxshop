@@ -24,26 +24,58 @@
     <a href="{{url('user/writeaddr')}}" class="m-index-icon">添加</a>
 </div>
 <div class="addr-wrapp">
-    <div class="addr-list">
-        <ul>
-            <li class="clearfix">
-                <span class="fl">兰兰</span>
-                <span class="fr">15034008459</span>
-            </li>
-            <li>
-                <p>北京市东城区起来我来了</p>
-            </li>
-            <li class="a-set">
-                <s class="z-set" style="margin-top: 6px;"></s>
-                <span>设为默认</span>
-                <div class="fr">
-                    <span class="edit">编辑</span>
-                    <span class="remove">删除</span>
-                </div>
-            </li>
-        </ul>
-    </div>
+    @foreach($rea as $v)
+        @if($v['is_default']==1)
+            @csrf
+            <div class="addr-list" style="background-color: #faff99;" address_id="{{$v->address_id}}">
+                <ul>
+                    <li class="clearfix">
+                        <span class="fl">{{$v->address_name}}</span>
+                        <span class="fr">{{$v->address_tel}}</span>
+                    </li>
+                    <li>
+                        <p>{{$v->province}}{{$v->city}}{{$v->area}}{{$v->address_detail}}</p>
+                    </li>
+                    <li class="a-set" >
+                        <div >
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            <span class="edit">编辑</span>
+                            &nbsp;
+                            <span class="remove">删除</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        @elseif($v['is_default']==2)
+            @csrf
+            <div class="addr-list" address_id="{{$v->address_id}}">
+                <ul>
+                    <li class="clearfix">
+                        <span class="fl">{{$v->address_name}}</span>
+                        <span class="fr">{{$v->address_tel}}</span>
+                    </li>
+                    <li>
+                        <p>{{$v->province}}{{$v->city}}{{$v->area}}{{$v->address_detail}}</p>
+                    </li>
+                    <li class="a-set">
+                        <s class="z-set" style="margin-top: 6px;"></s>
+                        <span class="moren">设为默认</span>
+                        <div class="fr">
+                            <span class="edit">编辑</span>
+                            <span class="remove">删除</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        @endif
 
+    @endforeach
+        <br>
 </div>
 
 
@@ -58,13 +90,27 @@
 
     // 删除地址
     $(document).on('click','span.remove', function () {
+        var address_id=$(this).parents('.addr-list').attr('address_id');
+        var _token=$(this).parents('.addr-list').prev().val();
         var buttons1 = [
             {
                 text: '删除',
                 bold: true,
                 color: 'danger',
                 onClick: function() {
-                    $.alert("您确定删除吗？");
+                    $.post(
+                        '{{url('user/addressdel')}}',
+                        {address_id:address_id,_token:_token},
+                        function (res) {
+                            if(res==1){
+                                alert('删除成功');
+                                history.go();
+                            }else{
+                                alert('删除失败');
+                                history.go(0);
+                            }
+                        }
+                    );
                 }
             }
         ];
@@ -76,6 +122,35 @@
         ];
         var groups = [buttons1, buttons2];
         $.actions(groups);
+    });
+    //点击默认
+    $(document).on('click','.moren',function () {
+        var address_id=$(this).parents('.addr-list').attr('address_id');
+        var _token=$(this).parents('.addr-list').prev().val();
+        $.post(
+            '{{url('user/addressmoren')}}',
+            {address_id:address_id,_token:_token},
+            function (res) {
+                if(res==1){
+                    alert('设置成功');
+                    history.go(0);
+                }else{
+                    alert('设置失败');
+                }
+            }
+        );
+    });
+    //点击编辑
+    $(document).on('click','.edit',function () {
+        var address_id=$(this).parents('.addr-list').attr('address_id');
+        var _token=$(this).parents('.addr-list').prev().val();
+        $.post(
+            '{{url('user/addressEdit')}}',
+            {address_id:address_id,_token:_token},
+            function (res) {
+                console.log(res);
+            }
+        );
     });
 </script>
 

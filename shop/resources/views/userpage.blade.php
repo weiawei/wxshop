@@ -11,10 +11,10 @@
         <i class="set"></i>
         <div class="login-img clearfix">
             <ul>
-                <li><img src="{{url('images/goods2.jpg')}}" alt=""></li>
+                <li><img src="http://i0.hdslb.com/bfs/archive/ffe9735cdb517513b7de05d95767eef31abe3da9.jpg" alt=""></li>
                 <li class="name">
-                    <h3>兰兰</h3>
-                    <p>ID：10030053</p>
+                    <h3>{{$user_tel}}</h3>
+                    <p>ID：{{substr($create_time,'3')}}{{$user_id}}</p>
                 </li>
                 <li class="next fr"><s></s></li>
             </ul>
